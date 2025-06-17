@@ -8,7 +8,7 @@ Specify the environment variables:
 
 ```bash
 export CALENDAR_NAME="YOUR-CAL-NAME"
-export SEARCH_TEXT="YOUR-SEARCH-TEXT"
+export CALENDAR_SEARCH_TEXT="YOUR-SEARCH-TEXT"
 ```
 
 Execute it from the terminal:
