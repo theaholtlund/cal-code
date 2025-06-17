@@ -1,11 +1,16 @@
 with timeout of 300 seconds
   tell application "Calendar"
     set calRef to calendar (system attribute "CALENDAR_NAME")
+    if calRef is missing value then error "Calendar not found"
 
     set outputLines to {}
     set evList to every event of calRef
     repeat with ev in evList
-      set evNotes to notes of ev as text
+      try
+        set evNotes to notes of ev as text
+      on error
+        set evNotes to ""
+      end try
       if evNotes = "Totalt: " then
         set evStart to start date of ev
         set evSummary to summary of ev
