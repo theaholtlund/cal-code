@@ -1,4 +1,5 @@
 on run
+  -- Read environment variables passed as system attributes
   set calendarName to system attribute "CALENDAR_NAME"
   set searchText to system attribute "CALENDAR_SEARCH_TEXT"
   
