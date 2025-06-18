@@ -2,6 +2,11 @@ on run
   set calendarName to system attribute "CALENDAR_NAME"
   set searchText to system attribute "CALENDAR_SEARCH_TEXT"
   
+  if calendarName is missing value or calendarName = "" then
+    error "CALENDAR_NAME not set"
+  end if
+  
+  
   tell application "Calendar"
     set calRef to calendar calendarName
     
