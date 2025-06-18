@@ -2,6 +2,17 @@
 
 This is a macOS JavaScript for Automation (JXA) project to perform various operations with Apple Calendar.
 
+## Project Structure
+
+```
+calendar-scripts/
+├── check-notes-absolute.js
+├── check-notes-inclusion.js
+└── apple-scripts/
+    └── check-notes-absolute.scpt
+    └── check-notes-inclusion.scpt
+```
+
 ## 🚀 Installation & Execution
 
 ### 1. Make The Main Scripts Executable
