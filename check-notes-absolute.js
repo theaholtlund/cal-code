@@ -8,6 +8,10 @@ app.includeStandardAdditions = true;
 
 function loadEnv(path) {
   const fm = $.NSFileManager.defaultManager;
+  if (!fm.fileExistsAtPath(path)) {
+    console.log(`❌ .env file not found at ${path}`);
+    $.exit(1);
+  }
 
   const content = $.NSString.stringWithContentsOfFileEncodingError(
     path,
