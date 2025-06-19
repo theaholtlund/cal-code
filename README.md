@@ -2,6 +2,11 @@
 
 This is a macOS JavaScript for Automation (JXA) project to perform various operations with Apple Calendar.
 
+## ✅ Prerequisites
+
+- Environment with macOS, version 10.10+
+- Apple Calendar, and permissions to access calendar data. The macOS will prompt when running the scripts for the first time
+
 ## Project Structure
 
 ```
