@@ -18,11 +18,16 @@ function loadEnv(path) {
     $.NSUTF8StringEncoding,
     null
   );
+  if (!content) {
+    console.log(`❌ Unable to read .env file at ${path}`);
+    $.exit(1);
+  }
 
   const lines = ObjC.unwrap(content).split("\n");
   const env = {};
   lines.forEach((line) => {
     line = line.trim();
+    if (!line || line.startsWith("#")) return;
     const [key, ...vals] = line.split("=");
     const keyTrimmed = key.trim();
     const valueRaw = vals.join("=");
