@@ -7,6 +7,9 @@ on run
     error "CALENDAR_NAME not set"
   end if
   
+  if searchText is missing value or searchText = "" then
+    error "CALENDAR_SEARCH_TEXT not set"
+  end if
   
   tell application "Calendar"
     set calRef to calendar calendarName
