@@ -34,11 +34,33 @@ const searchText = env.CALENDAR_SEARCH_TEXT;
 
 const scriptPath = `${cwd}/apple-scripts/search-notes-inclusion.scpt`;
 
-const out = app.doShellScript(
-  `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`
-);
+try {
+  const raw = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
+  const out = app.doShellScript(raw);
 
-out.split("\n").forEach((line) => {
-  const [title, dateStr] = line.split("|||");
-  console.log(`✔ "${title}" @ ${dateStr}`);
-});
+  if (!out.trim()) {
+    console.log("✅ No matching events found.");
+    $.exit(0);
+  }
+
+  // Normalize line endings and split into lines
+  const normalizedOutput = out.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  console.log(normalizedOutput);
+
+  normalizedOutput
+    .trim()
+    .split("\n")
+    .forEach((line) => {
+      const trimmed = line.trim();
+      if (trimmed.length > 0) {
+        console.log(trimmed);
+      }
+    });
+} catch (e) {
+  if (e.errorNumber === -1712) {
+    console.log("❌ AppleScript timed out");
+  } else {
+    console.log(`❌ AppleScript error: ${e}`);
+  }
+  $.exit(1);
+}
