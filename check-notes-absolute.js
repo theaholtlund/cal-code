@@ -51,11 +51,11 @@ try {
   const out = app.doShellScript(raw);
 
   if (!out.trim()) {
-    console.log("✅ No matching events found.");
+    console.log("✅ No matching events found");
     $.exit(0);
   }
 
-  // Normalize line endings and split output into bullet lines
+  // Normalise line endings and split output into bullet lines
   const normalizedOutput = out.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
   normalizedOutput
