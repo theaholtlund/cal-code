@@ -1,3 +1,6 @@
+-- Exact match filter through case-insensitive equality
+-- Matches if the description equals the searchText, even if letter case differs
+
 on isoDate(theDate)
 	set y to year of theDate as text
 	set m to text -2 thru -1 of ("0" & (month of theDate as integer))
@@ -19,7 +22,6 @@ with timeout of 600 seconds
 		set calRef to calendar calendarName
 		if calRef is missing value then error "Calendar not found: " & calendarName
 
-		-- Match events whose description is exactly the search text
 		set filteredEvents to every event of calRef whose description = searchText
 
 		set outputLines to {}
