@@ -1,3 +1,6 @@
+-- Substring filter through case-insensitive "contains"
+-- Matches if searchText appears anywhere within the description
+
 on isoDate(theDate)
 	set y to year of theDate as text
 	set m to text -2 thru -1 of ("0" & (month of theDate as integer))
