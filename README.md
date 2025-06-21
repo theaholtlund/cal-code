@@ -31,7 +31,7 @@ chmod +x check-notes-inclusion.js
 
 ### 2. Set Environment Variables
 
-Specify the environment variables:
+Specify the calendar name and the search text in calendar event notes using environment variables:
 
 ```bash
 export CALENDAR_NAME="YOUR-CAL-NAME"
