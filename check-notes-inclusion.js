@@ -23,10 +23,9 @@ function loadEnv(path) {
   const env = {};
   lines.forEach((line) => {
     line = line.trim();
+    if (!line || line.startsWith("#")) return;
     const [key, ...vals] = line.split("=");
-    const keyTrimmed = key.trim();
-    const valueRaw = vals.join("=");
-    env[keyTrimmed] = valueRaw;
+    env[key.trim()] = vals.join("=");
   });
   return env;
 }
