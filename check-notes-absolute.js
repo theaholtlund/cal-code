@@ -43,7 +43,15 @@ const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
 
-// Compose path for AppleScript
+if (!calendarName) {
+  console.log("❌ CALENDAR_NAME not set in .env");
+  $.exit(1);
+}
+if (!searchText) {
+  console.log("❌ CALENDAR_SEARCH_TEXT not set in .env");
+  $.exit(1);
+}
+
 const scriptPath = `${cwd}/apple-scripts/search-notes-absolute.scpt`;
 
 try {
