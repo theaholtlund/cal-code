@@ -1,10 +1,11 @@
 #!/usr/bin/env osascript -l JavaScript
-
 ObjC.import("stdlib");
-ObjC.import("Foundation");
 
 const app = Application.currentApplication();
 app.includeStandardAdditions = true;
+
+const cwd = $.getenv("PWD");
+const envPath = `${cwd}/.env`;
 
 function loadEnv(path) {
   const fm = $.NSFileManager.defaultManager;
@@ -12,7 +13,6 @@ function loadEnv(path) {
     console.log(`❌ .env file not found at ${path}`);
     $.exit(1);
   }
-
   const content = $.NSString.stringWithContentsOfFileEncodingError(
     path,
     $.NSUTF8StringEncoding,
