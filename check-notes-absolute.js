@@ -22,24 +22,18 @@ function loadEnv(path) {
     console.log(`❌ Unable to read .env file at ${path}`);
     $.exit(1);
   }
-
   const lines = ObjC.unwrap(content).split("\n");
   const env = {};
   lines.forEach((line) => {
     line = line.trim();
     if (!line || line.startsWith("#")) return;
     const [key, ...vals] = line.split("=");
-    const keyTrimmed = key.trim();
-    const valueRaw = vals.join("=");
-    env[keyTrimmed] = valueRaw;
+    env[key.trim()] = vals.join("=");
   });
   return env;
 }
 
-const cwd = $.getenv("PWD");
-const envPath = `${cwd}/.env`;
 const env = loadEnv(envPath);
-
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
 
