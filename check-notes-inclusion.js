@@ -18,7 +18,10 @@ function loadEnv(path) {
     $.NSUTF8StringEncoding,
     null
   );
-
+  if (!content) {
+    console.log(`❌ Unable to read .env file at ${path}`);
+    $.exit(1);
+  }
   const lines = ObjC.unwrap(content).split("\n");
   const env = {};
   lines.forEach((line) => {
@@ -33,6 +36,15 @@ function loadEnv(path) {
 const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
+
+if (!calendarName) {
+  console.log("❌ CALENDAR_NAME not set in .env");
+  $.exit(1);
+}
+if (!searchText) {
+  console.log("❌ CALENDAR_SEARCH_TEXT not set in .env");
+  $.exit(1);
+}
 
 const scriptPath = `${cwd}/apple-scripts/search-notes-inclusion.scpt`;
 
