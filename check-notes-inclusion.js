@@ -33,18 +33,23 @@ function loadEnv(path) {
   return env;
 }
 
+function validateEnv(varName, value) {
+  if (!value) {
+    console.log(`❌ ${varName} not set in .env`);
+    $.exit(1);
+  }
+}
+
+function normalizeOutput(output) {
+  return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
+}
+
 const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
 
-if (!calendarName) {
-  console.log("❌ CALENDAR_NAME not set in .env");
-  $.exit(1);
-}
-if (!searchText) {
-  console.log("❌ CALENDAR_SEARCH_TEXT not set in .env");
-  $.exit(1);
-}
+validateEnv("CALENDAR_NAME", calendarName);
+validateEnv("CALENDAR_SEARCH_TEXT", searchText);
 
 const scriptPath = `${cwd}/apple-scripts/search-notes-inclusion.scpt`;
 
