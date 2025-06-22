@@ -40,7 +40,7 @@ function validateEnv(varName, value) {
   }
 }
 
-function normalizeOutput(output) {
+function normaliseOutput(output) {
   return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
 }
 
@@ -54,8 +54,9 @@ validateEnv("CALENDAR_SEARCH_TEXT", searchText);
 const scriptPath = `${cwd}/apple-scripts/search-notes-inclusion.scpt`;
 
 try {
-  const raw = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
-  const out = app.doShellScript(raw);
+  // Construct and run AppleScript command with environment variables passed inline
+  const command = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
+  const output = app.doShellScript(command);
 
   if (!out.trim()) {
     console.log("✅ No matching events found");

@@ -36,6 +36,7 @@ function loadEnv(path) {
     const [key, ...vals] = line.split("=");
     env[key.trim()] = vals.join("=");
   });
+
   return env;
 }
 
@@ -69,8 +70,10 @@ validateEnv("CALENDAR_SEARCH_TEXT", searchText);
 const scriptPath = `${cwd}/apple-scripts/search-notes-absolute.scpt`;
 
 try {
-  // Construct and run AppleScript command with environment variables passed inline
-  const command = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
+  // Construct and run AppleScript command with environment variables passed inline and escaped
+  const command = `CALENDAR_NAME=${shellEscape(
+    calendarName
+  )} CALENDAR_SEARCH_TEXT=${shellEscape(searchText)} osascript "${scriptPath}"`;
   const output = app.doShellScript(command);
 
   // If no matching output, notify and exit cleanly
