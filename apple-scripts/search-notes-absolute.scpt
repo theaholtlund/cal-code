@@ -26,7 +26,7 @@ with timeout of 600 seconds
 			set ev to item i of filteredEvents
 			set evSummary to summary of ev
 			set evISO to my isoDate(start date of ev)
-			copy ("• \"" & evSummary & "\" @ " & evISO) to end of outputLines
+			copy ("✓ \"" & evSummary & "\" @ " & evISO) to end of outputLines
 		end repeat
 
 		set AppleScript's text item delimiters to linefeed

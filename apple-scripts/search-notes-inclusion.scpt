@@ -15,9 +15,6 @@ with timeout of 600 seconds
 	set calendarName to system attribute "CALENDAR_NAME"
 	set searchText to system attribute "CALENDAR_SEARCH_TEXT"
 
-	if calendarName is missing value or calendarName = "" then error "CALENDAR_NAME not set"
-	if searchText is missing value or searchText = "" then error "CALENDAR_SEARCH_TEXT not set"
-
 	tell application "Calendar"
 		set calRef to calendar calendarName
 		if calRef is missing value then error "Calendar not found: " & calendarName
@@ -29,7 +26,7 @@ with timeout of 600 seconds
 			set ev to item i of filteredEvents
 			set evSummary to summary of ev
 			set evISO to my isoDate(start date of ev)
-			copy ("• \"" & evSummary & "\" @ " & evISO) to end of outputLines
+			copy ("✓  \"" & evSummary & "\" @ " & evISO) to end of outputLines
 		end repeat
 
 		set AppleScript's text item delimiters to linefeed
