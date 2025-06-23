@@ -31,9 +31,10 @@ function loadEnv(path) {
   const lines = ObjC.unwrap(content).split("\n");
   const env = {};
   lines.forEach((line) => {
-    line = line.trim();
-    if (!line || line.startsWith("#")) return; // Ignore empty lines and comments
+    if (!line || line.trim().startsWith("#")) return;
     const [key, ...vals] = line.split("=");
+    if (!key || vals.length === 0) return;
+
     env[key.trim()] = vals.join("=");
   });
 
