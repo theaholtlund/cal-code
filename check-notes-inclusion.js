@@ -1,9 +1,12 @@
 #!/usr/bin/env osascript -l JavaScript
+// Import macOS system libraries for environment and file operations
 ObjC.import("stdlib");
 
+// Create the main application object and enable standard scripting additions
 const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
+// Get current working directory and path to env file
 const cwd = $.getenv("PWD");
 const envPath = `${cwd}/.env`;
 
