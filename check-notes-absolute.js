@@ -58,6 +58,10 @@ function normaliseOutput(output) {
   return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
 }
 
+function shellEscape(str) {
+  return `'${str.replace(/'/g, `'\\''`)}'`;
+}
+
 // Load environment variables
 const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
