@@ -20,9 +20,9 @@ calendar-scripts/
 
 ## 🚀 Installation & Execution
 
-### 1. Make The Main Scripts Executable
+### 1. Make Scripts Executable
 
-Run this command to make the scripts directly runnable:
+Run the following command to make the scripts directly runnable:
 
 ```bash
 chmod +x check-notes-absolute.js
@@ -38,9 +38,9 @@ export CALENDAR_NAME="YOUR-CAL-NAME"
 export CALENDAR_SEARCH_TEXT="YOUR-SEARCH-TEXT"
 ```
 
-### 3. Run The Script
+### 3. Run The Relevant Main Script
 
-Execute it from the terminal:
+Execute desired script from the terminal:
 
 ```bash
 ./check-notes-absolute.js
