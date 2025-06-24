@@ -32,7 +32,7 @@ function loadEnv(path) {
   const env = {};
   lines.forEach((line) => {
     line = line.trim();
-    if (!line || line.startsWith("#")) return;
+    if (!line || line.startsWith("#")) return; // Ignore empty lines and comments
     const [key, ...vals] = line.split("=");
     env[key.trim()] = vals.join("=");
   });
@@ -50,13 +50,16 @@ function normaliseOutput(output) {
   return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
 }
 
+// Load environment variables
 const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
 
+// Validate required env variables exist
 validateEnv("CALENDAR_NAME", calendarName);
 validateEnv("CALENDAR_SEARCH_TEXT", searchText);
 
+// Path to the AppleScript file to execute
 const scriptPath = `${cwd}/apple-scripts/search-notes-inclusion.scpt`;
 
 try {
