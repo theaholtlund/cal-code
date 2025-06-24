@@ -10,6 +10,9 @@ app.includeStandardAdditions = true;
 const cwd = $.getenv("PWD");
 const envPath = `${cwd}/.env`;
 
+/**
+ * Load environment variables from an env file.
+ */
 function loadEnv(path) {
   const fm = $.NSFileManager.defaultManager;
   if (!fm.fileExistsAtPath(path)) {

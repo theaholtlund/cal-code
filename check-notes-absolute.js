@@ -58,6 +58,9 @@ function normaliseOutput(output) {
   return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
 }
 
+/**
+ * Escape shell arguments to preserve spacing and special characters.
+ */
 function shellEscape(str) {
   return `'${str.replace(/'/g, `'\\''`)}'`;
 }
