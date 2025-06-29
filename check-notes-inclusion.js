@@ -76,19 +76,11 @@ try {
     $.exit(0);
   }
 
-  // Normalise line endings and split into lines
-  const normalizedOutput = out.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-  console.log(normalizedOutput);
-
-  normalizedOutput
-    .trim()
-    .split("\n")
-    .forEach((line) => {
-      const trimmed = line.trim();
-      if (trimmed.length > 0) {
-        console.log(trimmed);
-      }
-    });
+  // Print each non-empty line of AppleScript output
+  normaliseOutput(output).forEach((line) => {
+    const trimmed = line.trim();
+    if (trimmed.length > 0) console.log(trimmed);
+  });
 } catch (e) {
   if (e.errorNumber === -1712) {
     console.log("❌ AppleScript timed out");
