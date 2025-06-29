@@ -39,6 +39,10 @@ function loadEnv(path) {
   return env;
 }
 
+/**
+ * Validate that a required environment variable is set.
+ * Exits with an error message if missing.
+ */
 function validateEnv(varName, value) {
   if (!value) {
     console.log(`❌ ${varName} not set in .env`);
