@@ -71,7 +71,8 @@ try {
   const command = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
   const output = app.doShellScript(command);
 
-  if (!out.trim()) {
+  // If no matching output, notify and exit cleanly
+  if (!output.trim()) {
     console.log("✅ No matching events found");
     $.exit(0);
   }
@@ -82,6 +83,7 @@ try {
     if (trimmed.length > 0) console.log(trimmed);
   });
 } catch (e) {
+  // Handle AppleScript timeout or other errors gracefully
   if (e.errorNumber === -1712) {
     console.log("❌ AppleScript timed out");
   } else {
