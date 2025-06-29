@@ -50,6 +50,9 @@ function validateEnv(varName, value) {
   }
 }
 
+/**
+ * Normalise the AppleScript output by fixing line endings and splitting into lines.
+ */
 function normaliseOutput(output) {
   return output.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim().split("\n");
 }
