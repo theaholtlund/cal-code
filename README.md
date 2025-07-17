@@ -2,7 +2,7 @@
 
 This is a macOS JavaScript for Automation (JXA) project to perform various search operations with Apple Calendar.
 
-## ✅ Prerequisites
+## Prerequisites
 
 - Environment with macOS, version 10.10+
 - Apple Calendar, and permissions to access calendar data. The macOS will prompt when running the scripts for the first time
@@ -18,7 +18,7 @@ calendar-scripts/
     └── check-notes-inclusion.scpt
 ```
 
-## 🚀 Installation & Execution
+## Installation and Execution
 
 ### 1. Make Scripts Executable
 
@@ -38,7 +38,7 @@ export CALENDAR_NAME="YOUR-CAL-NAME"
 export CALENDAR_SEARCH_TEXT="YOUR-SEARCH-TEXT"
 ```
 
-### 3. Run The Relevant Main Script
+### 3. Run The Desired Main Script
 
 Execute desired script from the terminal:
 
