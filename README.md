@@ -1,6 +1,6 @@
-### 🕵️‍♂️ CalCode: Apple Calendar Search Script
+### 🕵️‍♂️ CalCode: Apple Calendar Searches
 
-This is a macOS JavaScript for Automation (JXA) project to perform various operations with Apple Calendar.
+This is a macOS JavaScript for Automation (JXA) project to perform various search operations with Apple Calendar.
 
 ## ✅ Prerequisites
 
