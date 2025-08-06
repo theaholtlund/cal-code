@@ -22,8 +22,7 @@ with timeout of 600 seconds
 		set filteredEvents to every event of calRef whose description contains searchText
 
 		set outputLines to {}
-		repeat with i from 1 to count of filteredEvents
-			set ev to item i of filteredEvents
+		repeat with ev in filteredEvents
 			set evSummary to summary of ev
 			set evISO to my isoDate(start date of ev)
 			copy ("✓ \"" & evSummary & "\" @ " & evISO) to end of outputLines
