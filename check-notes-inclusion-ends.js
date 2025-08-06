@@ -1,22 +1,23 @@
 #!/usr/bin/env osascript -l JavaScript
 // Import macOS system libraries for environment and file operations
 ObjC.import("stdlib");
+ObjC.import("Foundation");
 
 // Create the main application object and enable standard scripting additions
 const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
-// Get current working directory and path to env file
+// Get current working directory and config file path
 const cwd = $.getenv("PWD");
-const envPath = `${cwd}/.env`;
+const configPath = `${cwd}/config.json`;
 
 /**
- * Load environment variables from an env file.
+ * Load configuration values from a JSON file.
  */
-function loadEnv(path) {
+function loadConfig(path) {
   const fm = $.NSFileManager.defaultManager;
   if (!fm.fileExistsAtPath(path)) {
-    console.log(`Environment file not found at ${path}`);
+    console.log(`Configuration file not found at ${path}`);
     $.exit(1);
   }
   const content = $.NSString.stringWithContentsOfFileEncodingError(
@@ -25,27 +26,24 @@ function loadEnv(path) {
     null
   );
   if (!content) {
-    console.log(`Unable to read environment file at ${path}`);
+    console.log(`Unable to read configuration file at ${path}`);
     $.exit(1);
   }
-  const lines = ObjC.unwrap(content).split("\n");
-  const env = {};
-  lines.forEach((line) => {
-    line = line.trim();
-    if (!line || line.startsWith("#")) return; // Ignore empty lines and comments
-    const [key, ...vals] = line.split("=");
-    env[key.trim()] = vals.join("=");
-  });
-  return env;
+
+  try {
+    return JSON.parse(ObjC.unwrap(content));
+  } catch (e) {
+    console.log(`Invalid JSON in configuration file at ${path}`);
+    $.exit(1);
+  }
 }
 
 /**
- * Validate that a required environment variable is set.
- * Exits with an error message if missing.
+ * Validate that a required configuration variable is set.
  */
-function validateEnv(varName, value) {
+function validateConfig(varName, value) {
   if (!value) {
-    console.log(`${varName} not set in environment file`);
+    console.log(`${varName} not set in configuration file`);
     $.exit(1);
   }
 }
@@ -67,21 +65,22 @@ function parseDateFromLine(line) {
   return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
 }
 
-// Load environment variables
-const env = loadEnv(envPath);
-const calendarName = env.CALENDAR_NAME;
-const searchText = env.CALENDAR_SEARCH_TEXT;
+// Load configuration and validate
+const config = loadConfig(configPath);
+const calendarName = config.CALENDAR_NAME;
+const searchText = config.CALENDAR_SEARCH_TEXT;
 
-// Validate required env variables exist
-validateEnv("CALENDAR_NAME", calendarName);
-validateEnv("CALENDAR_SEARCH_TEXT", searchText);
+validateConfig("CALENDAR_NAME", calendarName);
+validateConfig("CALENDAR_SEARCH_TEXT", searchText);
 
 // Path to the AppleScript file to execute
 const scriptPath = `${cwd}/apple-scripts/search-inclusion-ends.scpt`;
 
 try {
-  // Construct and run AppleScript command with environment variables passed inline
-  const command = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
+  // Escape shell arguments and pass them as environment variables
+  const escapedCalendar = calendarName.replace(/'/g, `'\\''`);
+  const escapedSearch = searchText.replace(/'/g, `'\\''`);
+  const command = `CALENDAR_NAME='${escapedCalendar}' CALENDAR_SEARCH_TEXT='${escapedSearch}' osascript "${scriptPath}"`;
   const output = app.doShellScript(command);
 
   // If no matching output, notify and exit cleanly
@@ -90,12 +89,11 @@ try {
     $.exit(0);
   }
 
-  // Parse, normalise and filter the AppleScript output lines
+  // Parse and sort the AppleScript output lines by event start datetime
   const lines = normaliseOutput(output)
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 
-  // Sort lines by event start datetime from oldest to newest
   lines.sort((a, b) => {
     const dateA = parseDateFromLine(a);
     const dateB = parseDateFromLine(b);
@@ -103,7 +101,7 @@ try {
     return dateA - dateB;
   });
 
-  // Format and print sorted lines with date in DD-MM-YYYY format
+  // Print sorted and formatted lines
   lines.forEach((line) => {
     const formattedLine = line.replace(
       /@ (\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}).*$/,
