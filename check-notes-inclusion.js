@@ -83,7 +83,13 @@ try {
   // Print each non-empty line of AppleScript output
   normaliseOutput(output).forEach((line) => {
     const trimmed = line.trim();
-    if (trimmed.length > 0) console.log(trimmed);
+    if (trimmed.length > 0) {
+      const formattedLine = trimmed.replace(
+        /@ (\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}).*$/,
+        (_, year, month, day, time) => `@ ${day}-${month}-${year} ${time}`
+      );
+      console.log(formattedLine);
+    }
   });
 } catch (e) {
   // Handle AppleScript timeout or other errors gracefully
