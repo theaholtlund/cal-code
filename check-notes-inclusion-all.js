@@ -32,7 +32,7 @@ function loadEnv(path) {
   const env = {};
   lines.forEach((line) => {
     line = line.trim();
-    if (!line || line.startsWith("#")) return; // Ignore empty lines and comments
+    if (!line || line.startsWith("#")) return;
     const [key, ...vals] = line.split("=");
     env[key.trim()] = vals.join("=");
   });
