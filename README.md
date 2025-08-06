@@ -7,17 +7,6 @@ This is a macOS JavaScript for Automation (JXA) project to perform various searc
 - Environment with macOS, version 10.10+
 - Apple Calendar, and permissions to access calendar data. The macOS will prompt when running the scripts for the first time
 
-## Project Structure
-
-```
-calendar-scripts/
-├── check-notes-absolute.js
-├── check-notes-inclusion.js
-└── apple-scripts/
-    └── check-notes-absolute.scpt
-    └── check-notes-inclusion.scpt
-```
-
 ## Installation and Execution
 
 ### 1. Make Scripts Executable
