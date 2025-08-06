@@ -5,7 +5,8 @@ This is a macOS JavaScript for Automation (JXA) project to perform various searc
 ## Prerequisites
 
 - Environment with macOS, version 10.10+
-- Apple Calendar, and permissions to access calendar data. The macOS will prompt when running the scripts for the first time
+- Apple Calendar, and permissions to access calendar data.
+- The macOS will prompt when running the scripts for the first time
 
 ## Installation and Execution
 
@@ -19,14 +20,9 @@ chmod +x check-notes-inclusion-all.js
 chmod +x check-notes-inclusion-ends.js
 ```
 
-### 2. Set Environment Variables
+### 2. Configure Relevant Variables
 
-Specify the calendar name and the search text in calendar event notes using environment variables:
-
-```bash
-export CALENDAR_NAME="YOUR-CAL-NAME"
-export CALENDAR_SEARCH_TEXT="YOUR-SEARCH-TEXT"
-```
+Specify the calendar name and the search text in calendar event notes in JSON file.
 
 ### 3. Run The Desired Main Script
 
