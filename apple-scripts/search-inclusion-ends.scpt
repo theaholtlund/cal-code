@@ -1,4 +1,6 @@
--- Filter events where description ends with searchText and has nothing after
+-- Ends-with match filter using case-sensitive comparison
+-- Matches if the event description ends exactly with the searchText, including any trailing whitespace
+
 on isoDate(theDate)
 	set y to year of theDate as text
 	set m to text -2 thru -1 of ("0" & (month of theDate as integer))
