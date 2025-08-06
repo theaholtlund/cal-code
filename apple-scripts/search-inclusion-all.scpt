@@ -1,5 +1,5 @@
--- Substring filter through case-insensitive "contains"
--- Matches if searchText appears anywhere within the description
+-- Substring filter through case-insensitive contains
+-- Matches if searchText appears anywhere within the description of the calendar event
 
 on isoDate(theDate)
 	set y to year of theDate as text
