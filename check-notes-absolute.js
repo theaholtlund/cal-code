@@ -65,7 +65,17 @@ function shellEscape(str) {
   return `'${str.replace(/'/g, `'\\''`)}'`;
 }
 
-// Load environment variables
+/**
+ * Extract ISO datetime from event line and return JavaScript Date object.
+ */
+function parseDateFromLine(line) {
+  const match = line.match(/@ (\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if (!match) return null;
+  const [_, year, month, day, hour, minute] = match;
+  return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+}
+
+// Load and validate environment
 const env = loadEnv(envPath);
 const calendarName = env.CALENDAR_NAME;
 const searchText = env.CALENDAR_SEARCH_TEXT;
@@ -90,17 +100,22 @@ try {
     $.exit(0);
   }
 
-  // Print each non-empty line of AppleScript output
-  normaliseOutput(output).forEach((line) => {
-    const trimmed = line.trim();
-    if (trimmed.length > 0) {
-      const formattedLine = trimmed.replace(
+  const lines = normaliseOutput(output);
+
+  // Parse and sort the AppleScript output lines by event start datetime
+  const sorted = lines
+    .map((line) => ({ line, date: parseDateFromLine(line) }))
+    .filter((item) => item.date !== null)
+    .sort((a, b) => a.date - b.date)
+    .map((item) => {
+      const formattedLine = item.line.replace(
         /@ (\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}).*$/,
-        (_, year, month, day, time) => `@ ${day}-${month}-${year} ${time}`
+        (_, y, m, d, time) => `@ ${d}-${m}-${y} ${time}`
       );
-      console.log(formattedLine);
-    }
-  });
+      return formattedLine;
+    });
+
+  sorted.forEach((line) => console.log(line));
 } catch (e) {
   // Handle AppleScript timeout or other errors gracefully
   if (e.errorNumber === -1712) {
