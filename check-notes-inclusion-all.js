@@ -1,22 +1,23 @@
 #!/usr/bin/env osascript -l JavaScript
 // Import macOS system libraries for environment and file operations
 ObjC.import("stdlib");
+ObjC.import("Foundation");
 
 // Create the main application object and enable standard scripting additions
 const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
-// Get current working directory and path to env file
+// Get current working directory and path to config file
 const cwd = $.getenv("PWD");
-const envPath = `${cwd}/.env`;
+const configPath = `${cwd}/config.json`;
 
 /**
- * Load environment variables from an env file.
+ * Load configuration values from a JSON file.
  */
-function loadEnv(path) {
+function loadConfig(path) {
   const fm = $.NSFileManager.defaultManager;
   if (!fm.fileExistsAtPath(path)) {
-    console.log(`Environment file not found at ${path}`);
+    console.log(`Configuration file not found at ${path}`);
     $.exit(1);
   }
   const content = $.NSString.stringWithContentsOfFileEncodingError(
@@ -25,27 +26,25 @@ function loadEnv(path) {
     null
   );
   if (!content) {
-    console.log(`Unable to read environment file at ${path}`);
+    console.log(`Unable to read configuration file at ${path}`);
     $.exit(1);
   }
-  const lines = ObjC.unwrap(content).split("\n");
-  const env = {};
-  lines.forEach((line) => {
-    line = line.trim();
-    if (!line || line.startsWith("#")) return;
-    const [key, ...vals] = line.split("=");
-    env[key.trim()] = vals.join("=");
-  });
-  return env;
+
+  try {
+    return JSON.parse(ObjC.unwrap(content));
+  } catch (e) {
+    console.log(`Invalid JSON in configuration file at ${path}`);
+    $.exit(1);
+  }
 }
 
 /**
- * Validate that a required environment variable is set.
+ * Validate that a required configuration variable is set.
  * Exits with an error message if missing.
  */
-function validateEnv(varName, value) {
+function validateConfig(varName, value) {
   if (!value) {
-    console.log(`${varName} not set in environment file`);
+    console.log(`${varName} not set in configuration file`);
     $.exit(1);
   }
 }
@@ -67,21 +66,27 @@ function parseDateFromLine(line) {
   return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
 }
 
-// Load environment variables
-const env = loadEnv(envPath);
-const calendarName = env.CALENDAR_NAME;
-const searchText = env.CALENDAR_SEARCH_TEXT;
+// Load configuration
+const config = loadConfig(configPath);
+const calendarName = config.CALENDAR_NAME;
+const searchText = config.CALENDAR_SEARCH_TEXT;
 
-// Validate required env variables exist
-validateEnv("CALENDAR_NAME", calendarName);
-validateEnv("CALENDAR_SEARCH_TEXT", searchText);
+// Validate required config values exist
+validateConfig("CALENDAR_NAME", calendarName);
+validateConfig("CALENDAR_SEARCH_TEXT", searchText);
 
 // Path to the AppleScript file to execute
 const scriptPath = `${cwd}/apple-scripts/search-inclusion-all.scpt`;
 
 try {
-  // Construct and run AppleScript command with environment variables passed inline
-  const command = `CALENDAR_NAME="${calendarName}" CALENDAR_SEARCH_TEXT="${searchText}" osascript "${scriptPath}"`;
+  // Construct and run AppleScript command with config values passed inline
+  const command = `CALENDAR_NAME='${calendarName.replace(
+    /'/g,
+    `'\\''`
+  )}' CALENDAR_SEARCH_TEXT='${searchText.replace(
+    /'/g,
+    `'\\''`
+  )}' osascript "${scriptPath}"`;
   const output = app.doShellScript(command);
 
   // If no matching output, notify and exit cleanly
