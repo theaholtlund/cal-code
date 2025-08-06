@@ -1,4 +1,4 @@
--- Filter events where description ends *exactly* with searchText
+-- Filter events where description ends with searchText and has nothing after
 on isoDate(theDate)
 	set y to year of theDate as text
 	set m to text -2 thru -1 of ("0" & (month of theDate as integer))
