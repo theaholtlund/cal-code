@@ -15,7 +15,8 @@ Run the following command to make the scripts directly runnable:
 
 ```bash
 chmod +x check-notes-absolute.js
-chmod +x check-notes-inclusion.js
+chmod +x check-notes-inclusion-all.js
+chmod +x check-notes-inclusion-ends.js
 ```
 
 ### 2. Set Environment Variables
@@ -34,4 +35,5 @@ Execute desired script from the terminal:
 ```bash
 ./check-notes-absolute.js
 ./check-notes-inclusion-all.js
+./check-notes-inclusion-ends.js
 ```
