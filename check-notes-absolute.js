@@ -75,7 +75,7 @@ validateEnv("CALENDAR_NAME", calendarName);
 validateEnv("CALENDAR_SEARCH_TEXT", searchText);
 
 // Path to the AppleScript file to execute
-const scriptPath = `${cwd}/apple-scripts/search-notes-absolute.scpt`;
+const scriptPath = `${cwd}/apple-scripts/search-absolute.scpt`;
 
 try {
   // Construct and run AppleScript command with environment variables passed inline and escaped

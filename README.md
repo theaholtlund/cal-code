@@ -44,5 +44,5 @@ Execute desired script from the terminal:
 
 ```bash
 ./check-notes-absolute.js
-./check-notes-inclusion.js
+./check-notes-inclusion-all.js
 ```
