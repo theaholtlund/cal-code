@@ -12,13 +12,13 @@ on isoDate(theDate)
 end isoDate
 
 with timeout of 600 seconds
+	-- Read calendar name and search text from environment
 	set calendarName to system attribute "CALENDAR_NAME"
 	set searchText to system attribute "CALENDAR_SEARCH_TEXT"
 	
+	-- Connect to Calendar app and get matching events
 	tell application "Calendar"
 		set calRef to calendar calendarName
-		if calRef is missing value then error "Calendar not found: " & calendarName
-
 		set filteredEvents to every event of calRef whose description = searchText
 
 		set outputLines to {}
