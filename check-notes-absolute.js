@@ -16,7 +16,7 @@ const envPath = `${cwd}/.env`;
 function loadEnv(path) {
   const fm = $.NSFileManager.defaultManager;
   if (!fm.fileExistsAtPath(path)) {
-    console.log(`❌ .env file not found at ${path}`);
+    console.log(`Environment file not found at ${path}`);
     $.exit(1);
   }
   const content = $.NSString.stringWithContentsOfFileEncodingError(
@@ -25,7 +25,7 @@ function loadEnv(path) {
     null
   );
   if (!content) {
-    console.log(`❌ Unable to read .env file at ${path}`);
+    console.log(`Unable to read environment file at ${path}`);
     $.exit(1);
   }
   const lines = ObjC.unwrap(content).split("\n");
@@ -46,7 +46,7 @@ function loadEnv(path) {
  */
 function validateEnv(varName, value) {
   if (!value) {
-    console.log(`❌ ${varName} not set in .env`);
+    console.log(`${varName} not set in environment file`);
     $.exit(1);
   }
 }
@@ -86,7 +86,7 @@ try {
 
   // If no matching output, notify and exit cleanly
   if (!output.trim()) {
-    console.log("✅ No matching events found");
+    console.log("No matching events found");
     $.exit(0);
   }
 
@@ -98,9 +98,9 @@ try {
 } catch (e) {
   // Handle AppleScript timeout or other errors gracefully
   if (e.errorNumber === -1712) {
-    console.log("❌ AppleScript timed out");
+    console.log("AppleScript timed out");
   } else {
-    console.log(`❌ AppleScript error: ${e}`);
+    console.log(`There was an AppleScript error: ${e}`);
   }
   $.exit(1);
 }
